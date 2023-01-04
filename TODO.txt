@@ -1,0 +1,59 @@
+
+1. Zamienic dokladkladnosc na zbalansowana dokladnosc
+accuracy score
+[0.79949327 0.66933262 0.70701695 0.7187311 ]
+--------  --------  --------  --------
+0.799493  0.669333  0.707017  0.718731
+--------  --------  --------  --------
+
+balancy accuracy score
+[0.76859096 0.61343135 0.67481437 0.62538682]
+--------  --------  --------  --------
+0.768591  0.613431  0.674814  0.625387
+--------  --------  --------  --------
+
+
+3. Wieksza ilosc grup (20 roznych grup losowych)
+- scores (3-ci wymiar)
+1sz wymiar - l. zbiorow dantych
+2 - liczba klasyfikatorow
+3 - liczba foldow
+
+np.mean(axis 3)
+
+----- DONE ^^^ -------
+
+2. Przeanalizowac wyniki testami statystycznymi
+(istotnosc)
+- t student <- test
+
+
+
+
+
+it [00:00, 10.01it/s]C:\Users\PLUSR6000280\PycharmProjects\Magisterka\venv\lib\site-packages\sklearn\model_selection\_split.py:700: UserWarning: The least populated class in y has only 2 members, which is less than n_splits=5.
+  warnings.warn(
+6it [00:00, 10.02it/s]C:\Users\PLUSR6000280\PycharmProjects\Magisterka\venv\lib\site-packages\sklearn\metrics\_classification.py:2184: UserWarning: y_pred contains classes not in y_true
+  warnings.warn("y_pred contains classes not in y_true")
+
+
+[[0.64073962 0.46723534 0.45883732 0.5       ]
+ [0.63535359 0.48793789 0.45110754 0.6167198 ]
+ [0.50589137 0.50196907 0.50492506 0.5       ]
+ [0.77261645 0.51704937 0.70959532 0.53117578]
+ [0.76859096 0.61343135 0.67410841 0.62538682]
+ [0.64368659 0.56334712 0.61198401 0.5       ]
+ [0.6        0.6        0.59703438 0.6       ]
+ [0.66267068 0.55864368 0.56216196 0.50416123]
+ [0.73147504 0.50126789 0.64112324 0.5       ]
+ [0.6        0.6        0.59857881 0.6       ]
+ [0.75286536 0.52449424 0.67037459 0.5       ]
+ [0.8        0.8        0.79117647 0.8       ]
+ [0.56625632 0.42261922 0.35110716 0.51734738]
+ [0.8        0.8        0.79680851 0.8       ]
+ [0.52006813 0.50049523 0.58494939 0.5       ]
+ [0.7852798  0.54116772 0.6894616  0.5       ]
+ [0.59693355 0.4701106  0.4330581  0.5       ]
+ [0.7466653  0.50496876 0.62842245 0.5       ]
+ [0.54498336 0.50624052 0.52478166 0.5       ]
+ [0.71690559 0.56797286 0.59156997 0.5       ]]
