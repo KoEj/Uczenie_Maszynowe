@@ -7,6 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 import random
+from os import walk
 
 # numpy.set_printoptions(threshold=sys.maxsize)
 direction = "C:/Users/PLUSR6000280/PycharmProjects/Magisterka/"
@@ -88,8 +89,9 @@ def getMoviesWithSpecificGenres(genresList):
 
 
     print('Movies found: ' + str(len(movies)))
-    # print(movies)
-    return indexOfGenres, movies, labels
+    unique, counts = np.unique(labels, return_counts=True)
+    samples = list(zip(unique, counts))
+    return indexOfGenres, movies, labels, samples
 
 
 def getMoviesWithRandomGenres(genresArray, genresList):
@@ -103,46 +105,61 @@ def getMoviesWithRandomGenres(genresArray, genresList):
                 movies.append(i)
 
     print('Movies found: ' + str(len(movies)))
-    return genresList, movies, labels
+    unique, counts = np.unique(labels, return_counts=True)
+    samples = list(zip(unique, counts))
+    return genresList, movies, labels, samples
 
 
-def prepareNewRandomGenres():
-    firstRandomGenres = random.sample(range(27), 20)
-    secondRandomGenres = random.sample(range(27), 20)
+def prepareNewRandomGenres(N):
+    firstRandomGenres = random.sample(range(27), N)
+    secondRandomGenres = random.sample(range(27), N)
     genresArray = np.load(direction + 'Y_GenresArray.npy', allow_pickle=True)
 
-    for i in tqdm(range(20)):
+    for i in tqdm(range(N)):
         genresSeparated = [firstRandomGenres[i], secondRandomGenres[i]]
-        genresIndexes, moviesGenresIndexesArray, y = getMoviesWithRandomGenres(genresArray, genresSeparated)
+        genresIndexes, moviesGenresIndexesArray, y, samples = getMoviesWithRandomGenres(genresArray, genresSeparated)
         var1 = text(True, moviesGenresIndexesArray, 100)
         var2 = photos(True, moviesGenresIndexesArray)
         X = np.hstack([var1, var2])
         y = LabelEncoder().fit_transform(y)
-        saveNpyFiles(X, y, genresIndexes)
+        saveNpyFiles(X, y, samples, genresIndexes)
 
 
-def saveNpyFiles(xValue, yValue, genresIndexList):
+def saveNpyFiles(xValue, yValue, fileSamples, genresIndexList):
     filename = '_'.join(str(i) for i in genresIndexList)
     with open(direction + 'data/' + 'X_' + filename + '.npy', 'wb') as f:
         np.save(f, xValue)
     with open(direction + 'data/' + 'y_' + filename + '.npy', 'wb') as f:
         np.save(f, yValue)
+    with open(direction + 'samples/' + 'sample_' + filename + '.npy', 'wb') as f:
+        np.save(f, fileSamples)
 
 
 def manualGenres():
     Genres = ['Sci-Fi', 'Crime']
     # PREPARE
-    genresIndexes, moviesGenresIndexesArray, y = getMoviesWithSpecificGenres(Genres)
+    genresIndexes, moviesGenresIndexesArray, samples, y = getMoviesWithSpecificGenres(Genres)
+    print(moviesGenresIndexesArray)
     var1 = text(True, moviesGenresIndexesArray, 100)
     var2 = photos(True, moviesGenresIndexesArray)
     X = np.hstack([var1, var2])
     y = LabelEncoder().fit_transform(y)
-    saveNpyFiles(X, y, genresIndexes)
+    saveNpyFiles(X, y, samples, genresIndexes)
+
+
+def checkSamples():
+    samplesList = []
+    samplesDirection = direction + '/samples/'
+    filenames = next(walk(samplesDirection), (None, None, []))[2]
+    for i, file in enumerate(filenames):
+        samplesList.append((file, np.load(samplesDirection + file, allow_pickle=True)))
+        print(samplesList[i])
 
 
 if __name__ == '__main__':
     uniqueGenres = np.load(direction + 'Y_UniqueGenres.npy', allow_pickle=True)
     print(uniqueGenres)
-    # prepareNewRandomGenres()
-    manualGenres()
-    # 17 i 21
+    # prepareNewRandomGenres(1)
+    # manualGenres()
+
+    checkSamples()

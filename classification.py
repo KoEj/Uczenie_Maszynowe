@@ -12,6 +12,7 @@ from tabulate import tabulate
 from os import walk
 direction = "C:/Users/PLUSR6000280/PycharmProjects/Magisterka/data/"
 directionScores = "C:/Users/PLUSR6000280/PycharmProjects/Magisterka/scores/"
+directionSamples = "C:/Users/PLUSR6000280/PycharmProjects/Magisterka/samples/"
 
 classifiers = [MLPClassifier(random_state=1, max_iter=300),
                KNeighborsClassifier(n_neighbors=3),
@@ -37,10 +38,11 @@ def classification():
         print("ERROR! X LIST IS DIFFERENT THAN Y LIST")
         return
 
-    print(xList)
+    # print(xList)
     scores = np.zeros((len(xList), 4, 10))
 
     for i in tqdm(range(len(xList))):
+        print(xList[i])
         X = np.load(direction + xList[i], allow_pickle=True)
         y = np.load(direction + yList[i], allow_pickle=True)
 
@@ -59,7 +61,7 @@ def classification():
             print('Error! for data:' + str(xList[i]) + ' and ' + str(yList[i]))
 
     # xList[i].split('_', 1)[1]
-    with open(directionScores + 'scores_' + str(len(xList)) + '_v3.npy', 'wb') as f:
+    with open(directionScores + 'scores_' + str(len(xList)) + '_v4.npy', 'wb') as f:
         np.save(f, scores)
 
     scores_mean = np.mean(scores, axis=2)
@@ -67,12 +69,34 @@ def classification():
     print(tabulate([scores_mean]))
 
 
+def checkSamples():
+    samplesList = []
+    filenames = next(walk(directionSamples), (None, None, []))[2]
+    for file in filenames:
+        samplesList.append(file)
+
+    samplesList.sort()
+
+    genresDifferenceArray = []
+    for item in samplesList:
+        sample = np.load(directionSamples + item, allow_pickle=True)
+        sampleConcat = sample[:, 1]
+        if sampleConcat[0] > sampleConcat[1]:
+            ir = (sampleConcat[1] * 100) / (sampleConcat[0] + sampleConcat[1])
+        else:
+            ir = (sampleConcat[0] * 100) / (sampleConcat[0] + sampleConcat[1])
+        genresDifferenceArray.append((sampleConcat[0], sampleConcat[1], ir))
+
+    # Nm / (Nm + Nw)
+    # print(genresDifferenceArray)
+    return genresDifferenceArray
+
+
 def statistics(N):
-    scoresDone = np.load(directionScores + 'scores_20_v3.npy', allow_pickle=True)
-    # scoresDone = scoresDone.astype(np.float64)
+    scoresDone = np.load(directionScores + 'scores_19_v4.npy', allow_pickle=True)
     alfa = 0.05
-    t_statistic = np.zeros((20, 4, 4))
-    p_value = np.zeros((20, 4, 4))
+    t_statistic = np.zeros((19, 4, 4))
+    p_value = np.zeros((19, 4, 4))
     print(scoresDone[0, 0])
 
     for i in range(scoresDone.shape[0]):
@@ -82,8 +106,8 @@ def statistics(N):
             for k in range(scoresDone.shape[1]):
                 t_statistic[i, j, k], p_value[i, j, k] = ttest_ind(scoresDone[i, j], scoresDone[i, k])
 
-        # print(t_statistic)
-        print(p_value)
+    arraysasa = np.logical_and(t_statistic > 0, p_value < alfa)
+    # print(np.argwhere(arraysasa, axis=1)) #dobrze
 
     # headers = ["MLPC", "KNN", "DTC", "SVC"]
     # names_column = np.array([["MLPC"], ["KNN"], ["DTC"], ["SVC"]])
@@ -97,5 +121,6 @@ if __name__ == '__main__':
     # scoresDone = np.load(directionScores + 'scores_20_v2', allow_pickle=True)
     # print(tabulate([scoresDone]))
 
-    # classification()
-    statistics(20)
+    classification()
+    # statistics(19)
+    # checkSamples()

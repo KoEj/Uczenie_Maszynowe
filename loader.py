@@ -87,8 +87,8 @@ if ExecuteGenres:
             genresArrayYarray[gen[0], np.where(uniqueGenres == genre)] = 1
 
     print(genresArrayYarray)
-    # with open(direction + 'Y_GenresArray__TTTT.npy', 'wb') as f:
-    #     np.save(f, genresArrayYarray)
+    with open(direction + 'Y_GenresArray.npy', 'wb') as f:
+        np.save(f, genresArrayYarray)
 
 
 if ExecutePlots:
@@ -123,6 +123,6 @@ if ExecutePhotos:
     photosArray = np.array(photosArray, dtype=object)
     photosArray = photosArray[photosArray[:, 0].argsort()]
 
-    # with open(direction + 'Photos.npy', 'wb') as f:
-    #     np.save(f, photosArray)
+    with open(direction + 'Photos.npy', 'wb') as f:
+        np.save(f, photosArray)
 
