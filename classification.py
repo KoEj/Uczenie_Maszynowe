@@ -61,7 +61,7 @@ def classification():
             print('Error! for data:' + str(xList[i]) + ' and ' + str(yList[i]))
 
     # xList[i].split('_', 1)[1]
-    with open(directionScores + 'scores_' + str(len(xList)) + '_v4.npy', 'wb') as f:
+    with open(directionScores + 'scores_' + str(len(xList)) + '_v1.npy', 'wb') as f:
         np.save(f, scores)
 
     scores_mean = np.mean(scores, axis=2)
@@ -88,16 +88,16 @@ def checkSamples():
         genresDifferenceArray.append((sampleConcat[0], sampleConcat[1], ir))
 
     # Nm / (Nm + Nw)
-    # print(genresDifferenceArray)
+    print(genresDifferenceArray)
     return genresDifferenceArray
 
 
 def statistics(N):
-    scoresDone = np.load(directionScores + 'scores_19_v4.npy', allow_pickle=True)
+    scoresDone = np.load(directionScores + 'scores_20_v1.npy', allow_pickle=True)
     alfa = 0.05
-    t_statistic = np.zeros((19, 4, 4))
-    p_value = np.zeros((19, 4, 4))
-    print(scoresDone[0, 0])
+    t_statistic = np.zeros((20, 4, 4))
+    p_value = np.zeros((20, 4, 4))
+    # print(scoresDone[0, 0])
 
     for i in range(scoresDone.shape[0]):
         #DATASETS
@@ -107,7 +107,10 @@ def statistics(N):
                 t_statistic[i, j, k], p_value[i, j, k] = ttest_ind(scoresDone[i, j], scoresDone[i, k])
 
     arraysasa = np.logical_and(t_statistic > 0, p_value < alfa)
-    # print(np.argwhere(arraysasa, axis=1)) #dobrze
+    print(arraysasa.shape)
+    print(np.where(arraysasa[:,] == True))
+    # print(np.where(arraysasa == True))
+    # print(np.(arraysasa, axis=1)) #dobrze
 
     # headers = ["MLPC", "KNN", "DTC", "SVC"]
     # names_column = np.array([["MLPC"], ["KNN"], ["DTC"], ["SVC"]])
@@ -121,6 +124,6 @@ if __name__ == '__main__':
     # scoresDone = np.load(directionScores + 'scores_20_v2', allow_pickle=True)
     # print(tabulate([scoresDone]))
 
-    classification()
-    # statistics(19)
+    # classification()
+    statistics(20)
     # checkSamples()
