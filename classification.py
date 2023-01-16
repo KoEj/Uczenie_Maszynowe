@@ -6,7 +6,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
-from scipy.stats import ttest_ind
+from scipy.stats import ttest_ind, rankdata
 from tqdm import tqdm
 from tabulate import tabulate
 from os import walk
@@ -94,6 +94,16 @@ def checkSamples():
 
 def statistics(N):
     scoresDone = np.load(directionScores + 'scores_20_v1.npy', allow_pickle=True)
+
+    # Ranks
+    scores_mean = np.mean(scoresDone, axis=2)
+    ranks = []
+    for ms in scores_mean:
+        ranks.append(rankdata(ms).tolist())
+    ranks = np.array(ranks)
+    mean_ranks = np.mean(ranks, axis=0)
+    print("\nMean ranks:\n", mean_ranks)
+
     alfa = 0.05
     t_statistic = np.zeros((20, 4, 4))
     p_value = np.zeros((20, 4, 4))
@@ -106,11 +116,22 @@ def statistics(N):
             for k in range(scoresDone.shape[1]):
                 t_statistic[i, j, k], p_value[i, j, k] = ttest_ind(scoresDone[i, j], scoresDone[i, k])
 
-    arraysasa = np.logical_and(t_statistic > 0, p_value < alfa)
-    print(arraysasa.shape)
-    print(np.where(arraysasa[:,] == True))
-    # print(np.where(arraysasa == True))
-    # print(np.(arraysasa, axis=1)) #dobrze
+    significantlyBetterStatArray = np.logical_and(t_statistic > 0, p_value < alfa)
+    print(significantlyBetterStatArray.astype(int))
+    listOfTrue = np.argwhere(significantlyBetterStatArray)
+    # print(listOfTrue)
+
+    new_list, temp = [], listOfTrue[-1]
+    for item in range(0, temp[0]+1):
+        new_list.append([[x[1], x[2]] for x in listOfTrue if x[0] == item])
+
+    mapping = {0: 'MLPC', 1: 'KNN', 2: 'DTC', 3: 'SVC'}
+
+    indexed_matrix = [[(mapping[x[0]], mapping[x[1]]) for x in sublist] for sublist in new_list]
+
+    for i in indexed_matrix:
+        print(i)
+
 
     # headers = ["MLPC", "KNN", "DTC", "SVC"]
     # names_column = np.array([["MLPC"], ["KNN"], ["DTC"], ["SVC"]])

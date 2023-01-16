@@ -19,7 +19,24 @@
  [0.54498336 0.50624052 0.5261977  0.5       ]
  [0.79243608 0.59849393 0.67664388 0.59798555]]
 
- -----------------
- Poindeksowac nazwy metod
- - np.where po axis 1 where True
-DONE -> stopien niezbalansowania [2 klasy] (ilosc jednego gatunku, ilosc drugiego gantunku)
+
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('SVC', 'KNN'), ('SVC', 'DTC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC'), ('SVC', 'KNN')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC'), ('SVC', 'KNN')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('KNN', 'DTC'), ('KNN', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC'), ('SVC', 'KNN')]
+[('MLPC', 'SVC'), ('KNN', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
+[('MLPC', 'KNN'), ('MLPC', 'DTC'), ('MLPC', 'SVC'), ('DTC', 'KNN'), ('DTC', 'SVC')]
