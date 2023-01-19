@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # import loader
 import pandas as pd
+from scipy.signal import medfilt2d
 from tqdm import tqdm
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
@@ -17,11 +18,8 @@ def photos(execute, movies):
     if execute:
         allImagesArray = np.load(direction + "Photos.npy", allow_pickle=True)
         # for print purposes
-        # arrayOfMovies = np.zeros((8100, 3))
+        # arrayOfMovies = np.zeros((5900, 3))
         arrayOfMovies = np.zeros((len(movies), 3))
-
-        # imageArray = allImagesArray[movies]
-        # imageArray = np.array(imageArray, dtype=object)
 
         imageArray = np.array(allImagesArray[movies][:, 1])
 
@@ -32,14 +30,14 @@ def photos(execute, movies):
             # ekstrakcja danych do kolorow powyzsza linia ^
 
         # print(arrayOfMovies)
-        return arrayOfMovies
 
-        # imagess = arrayOfMovies.reshape((81, 100, 3))
+        # imagess = arrayOfMovies.reshape((59, 100, 3))
         # for i in range(3):
         #     imagess[:, :, i] = medfilt2d(imagess[:, :, i], kernel_size=5)
         # plt.imshow(imagess.astype(int))
         # plt.show()
 
+        return arrayOfMovies
 
 def text(execute, movies, maxFeatures):
     if execute:
@@ -142,9 +140,9 @@ def manualGenres():
     print(moviesGenresIndexesArray)
     var1 = text(True, moviesGenresIndexesArray, 100)
     var2 = photos(True, moviesGenresIndexesArray)
-    X = np.hstack([var1, var2])
-    y = LabelEncoder().fit_transform(y)
-    saveNpyFiles(X, y, samples, genresIndexes)
+    # X = np.hstack([var1, var2])
+    # y = LabelEncoder().fit_transform(y)
+    # saveNpyFiles(X, y, samples, genresIndexes)
 
 
 def checkSamples():
@@ -157,9 +155,10 @@ def checkSamples():
 
 
 if __name__ == '__main__':
-    uniqueGenres = np.load(direction + 'Y_UniqueGenres.npy', allow_pickle=True)
-    print(uniqueGenres)
+    # uniqueGenres = np.load(direction + 'Y_UniqueGenres.npy', allow_pickle=True)
+    # print(uniqueGenres)
+
+    manualGenres()
     # prepareNewRandomGenres(1)
     # manualGenres()
-
-    checkSamples()
+    # checkSamples()

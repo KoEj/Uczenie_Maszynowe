@@ -65,8 +65,9 @@ def classification():
         np.save(f, scores)
 
     scores_mean = np.mean(scores, axis=2)
-    print(scores_mean)
+    print(np.around(scores_mean, decimals=3))
     print(tabulate([scores_mean]))
+
 
 
 def checkSamples():
@@ -76,16 +77,25 @@ def checkSamples():
         samplesList.append(file)
 
     samplesList.sort()
+    uniqueGenres = np.load('C:/Users/PLUSR6000280/PycharmProjects/Magisterka/' + 'Y_UniqueGenres.npy', allow_pickle=True)
+    # print(uniqueGenres)
 
     genresDifferenceArray = []
     for item in samplesList:
+        itemSplitted = item.split('_')
         sample = np.load(directionSamples + item, allow_pickle=True)
         sampleConcat = sample[:, 1]
+
         if sampleConcat[0] > sampleConcat[1]:
-            ir = (sampleConcat[1] * 100) / (sampleConcat[0] + sampleConcat[1])
+            ir = sampleConcat[0] / sampleConcat[1]
         else:
-            ir = (sampleConcat[0] * 100) / (sampleConcat[0] + sampleConcat[1])
-        genresDifferenceArray.append((sampleConcat[0], sampleConcat[1], ir))
+            ir = sampleConcat[1] / sampleConcat[0]
+
+        genresDifferenceArray.append((uniqueGenres[int(itemSplitted[1])],
+                                      uniqueGenres[int(itemSplitted[2].split('.')[0])],
+                                      sampleConcat[0],
+                                      sampleConcat[1],
+                                      ir))
 
     # Nm / (Nm + Nw)
     print(genresDifferenceArray)
@@ -97,6 +107,7 @@ def statistics(N):
 
     # Ranks
     scores_mean = np.mean(scoresDone, axis=2)
+    print(np.around(scores_mean, decimals=3))
     ranks = []
     for ms in scores_mean:
         ranks.append(rankdata(ms).tolist())
